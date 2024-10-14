@@ -9,7 +9,7 @@ test('get order with correct id should receive code 200', async ({ request }) =>
   console.log('response body:', await response.json())
   console.log('response headers:', response.headers())
   // Check if the response status is 200
-  expect(response.status()).toBe(StatusCodes.BAD_REQUEST)
+  expect(response.status()).toBe(StatusCodes.OK)
 })
 
 test('post order with correct data should receive code 200', async ({ request }) => {
