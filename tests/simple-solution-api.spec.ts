@@ -60,3 +60,76 @@ test('post order with incorrect data should receive code 400', async ({ request 
   console.log('response status:', response.status())
   expect(response.status()).toBe(StatusCodes.BAD_REQUEST)
 })
+
+test('put order with correct data should receive code 200', async ({ request }) => {
+  // prepare request body
+  const requestBody = {
+    status: 'OPEN',
+    courierId: 2,
+    customerName: 'Nestle',
+    customerPhone: '80293761840',
+    comment: 'update order',
+    id: 2,
+  }
+  // Send a PUT request to the server
+  const requestHeader = {
+    api_key: '1234567890123456',
+  }
+  const response = await request.put('https://backend.tallinn-learning.ee/test-orders/2', {
+    data: requestBody,
+    headers: requestHeader,
+  })
+  // Log the response status and body
+  console.log('response status:', response.status())
+  console.log('response body:', await response.json())
+  expect(response.status()).toBe(StatusCodes.OK)
+})
+
+test('put order with incorrect data should receive code 400', async ({ request }) => {
+  // prepare request body
+  const requestBody = {
+    status: 'CLOSED',
+    courierId: 2,
+    customerName: 'Nestle',
+    customerPhone: '80293761840',
+    comment: 'update order',
+    id: 2,
+  }
+  // Send a PUT request to the server
+  const requestHeader = {
+    api_key: '1234567890123456',
+  }
+  const response = await request.put('https://backend.tallinn-learning.ee/test-orders/2', {
+    data: requestBody,
+    headers: requestHeader,
+  })
+  // Log the response status and body
+  console.log('response status:', response.status())
+  expect(response.status()).toBe(StatusCodes.BAD_REQUEST)
+})
+
+test('delete order with correct data should receive code 204', async ({ request }) => {
+  // Send a DEL request to the server
+  const requestHeader = {
+    api_key: '1234567890123456',
+  }
+  const response = await request.delete('https://backend.tallinn-learning.ee/test-orders/8', {
+    headers: requestHeader,
+  })
+  // Log the response status and body
+  console.log('response status:', response.status())
+  expect(response.status()).toBe(204)
+})
+
+test('delete order with incorrect data should receive code 400', async ({ request }) => {
+  // Send a PUT request to the server
+  const requestHeader = {
+    api_key: '1234567890123456',
+  }
+  const response = await request.delete('https://backend.tallinn-learning.ee/test-orders/25', {
+    headers: requestHeader,
+  })
+  // Log the response status and body
+  console.log('response status:', response.status())
+  expect(response.status()).toBe(StatusCodes.BAD_REQUEST)
+})
