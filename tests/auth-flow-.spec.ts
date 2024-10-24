@@ -5,8 +5,6 @@ import { LoginDto } from './dto/login-dto'
 const serviceURL = 'https://backend.tallinn-learning.ee/'
 const loginPath = 'login/student'
 
-
-
 test('Incorrect login and password', async ({ request }) => {
   const loginDto = LoginDto.createLoginWithICorrectCredentials()
   const response = await request.post(`${serviceURL}${loginPath}`, {
@@ -27,5 +25,3 @@ test('Correct login and password', async ({ request }) => {
   expect.soft(response.status()).toBe(StatusCodes.OK)
   console.log(await response.text())
 })
-
-
