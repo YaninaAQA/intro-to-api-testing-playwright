@@ -15,6 +15,19 @@ test('Incorrect login and password', async ({ request }) => {
   expect.soft(response.status()).toBe(StatusCodes.UNAUTHORIZED)
 })
 
+test('PUT login: returns 405 status code with incorrect HTTTP method', async ({ request }) => {
+  const loginDto = LoginDto.createLoginWithCorrectCredentials()
+
+  const response = await request.put(`${serviceURL}${loginPath}`, {
+    data: loginDto,
+  })
+
+  console.log('response status:', response.status())
+  expect.soft(response.status()).toBe(StatusCodes.METHOD_NOT_ALLOWED)
+  const responseBody = await response.text()
+  console.log(responseBody)
+})
+
 test('Correct login and password', async ({ request }) => {
   const loginDto = LoginDto.createLoginWithCorrectCredentials()
   const response = await request.post(`${serviceURL}${loginPath}`, {
@@ -24,4 +37,19 @@ test('Correct login and password', async ({ request }) => {
   console.log('response status:', response.status())
   expect.soft(response.status()).toBe(StatusCodes.OK)
   console.log(await response.text())
+})
+
+test('POST login: returns 200 status code with valid JWT token', async ({ request }) => {
+  const loginDto = LoginDto.createLoginWithCorrectCredentials()
+
+  const response = await request.post(`${serviceURL}${loginPath}`, {
+    data: loginDto,
+  })
+
+  console.log('response status:', response.status())
+  expect.soft(response.status()).toBe(StatusCodes.OK)
+  const responseBody = await response.text()
+  console.log(responseBody)
+  const jwtPattern = /^eyJhb[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/
+  expect(responseBody).toMatch(jwtPattern)
 })
