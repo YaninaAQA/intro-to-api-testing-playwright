@@ -19,11 +19,11 @@ test.describe('Loan tests', () => {
 
   test('POST loan: returns 200 status code with medium risk', async ({ request }) => {
     const riskDto = LoanDto.calcPositiveRiskScore()
-    riskDto.loanPeriod = 9
+
     const response = await request.post(
       'https://backend.tallinn-learning.ee/api/loan-calc/decision',
       {
-        data: riskDto,
+        data: { ...riskDto, loanPeriod: 9 },
       },
     )
     expect.soft(response.status()).toBe(StatusCodes.OK)
@@ -45,7 +45,7 @@ test.describe('Loan tests', () => {
     expect.soft(responseBody.riskLevel).toBe('High Risk')
   })
   test('POST loan: returns 200 status code with negative decision', async ({ request }) => {
-    const riskDto = LoanDto.calcPositiveRiskScore()
+    const riskDto = LoanDto.calcNegativeRiskScore()
     riskDto.income = 1100
     riskDto.loanPeriod = 34
     const response = await request.post(
