@@ -11,7 +11,6 @@ test('Incorrect login and password', async ({ request }) => {
     data: loginDto,
   })
 
-  console.log('response status:', response.status())
   expect.soft(response.status()).toBe(StatusCodes.UNAUTHORIZED)
 })
 
@@ -51,5 +50,5 @@ test('POST login: returns 200 status code with valid JWT token', async ({ reques
   const responseBody = await response.text()
   console.log(responseBody)
   const jwtPattern = /^eyJhb[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/
-  expect(responseBody).toMatch(jwtPattern)
+  expect.soft(responseBody).toMatch(jwtPattern)
 })
