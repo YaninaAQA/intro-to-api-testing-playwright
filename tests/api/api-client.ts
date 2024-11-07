@@ -67,7 +67,7 @@ export class ApiClient {
         Authorization: `Bearer ${this.jwt}`,
       },
     })
-    console.log('Order ID: ', response)
+    console.log('Response: ', response)
 
     expect(response.status()).toBe(StatusCodes.OK)
     const order = await response.json()

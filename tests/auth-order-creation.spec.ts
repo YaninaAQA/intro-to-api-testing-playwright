@@ -36,9 +36,9 @@ test('Authorize and Get Order ID (without api client)', async ({ request }) => {
 
 test('Authorize and delete order ID (without API client)', async ({ request }) => {
   const loginDto = LoginDto.createLoginWithCorrectCredentials()
-  const auth = await request.post(`${serviceURL}${loginPath}`, { data: loginDto })
-  expect.soft(auth.status()).toBe(StatusCodes.OK)
-  const token = await auth.text()
+  const authResponse = await request.post(`${serviceURL}${loginPath}`, { data: loginDto })
+  expect.soft(authResponse.status()).toBe(StatusCodes.OK)
+  const token = await authResponse.text()
   const orderDto = OrderDto.createOrderWithUndefinedOrderId()
 
   const orderResponse = await request.post(`${serviceURL}${orderPath}`, {
